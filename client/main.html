@@ -3,25 +3,42 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Beer!</h1>
 
   {{> hello}}
-  {{> info}}
+  {{> beerIngredients}}
+  {{> ingredientsNeeded}}
 </body>
 
 <template name = "beerIngredients">
   <form>
     <br>
-    <h2>Input ingredients:</h2>
+    <h2>Input Ingredients:</h2>
     <br>
-    Grain:  <input id = "grainamount" />
+    <br>
+    Grain: <br> <input type="number" id = "grainamount" />
     <br> 
-    Mineral Water: <input id = "mineralwateramount" />
     <br>
-    Sugar: <input id = "sugaramount" />
+    Mineral Water: <br> <input type="number" id = "mineralwateramount" />
     <br>
+    <br>
+    Sugar: <br> <input type="number" id = "sugaramount" />
+    <br>
+    <br>
+    Leavening Agent: <br> <input type="number" id = "leaveningagentamount" />
+    <br>
+    <br>
+    <button id = "submit">Submit</button>
     
   </form>
+</template>
+
+<template name = "ingredientsNeeded">
+  <table>
+    <p>
+      <h2>Total beer: {{baseAmount}}</h2>
+    </p>
+  </table>
 </template>
 
 <template name="hello">

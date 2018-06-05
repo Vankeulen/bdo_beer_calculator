@@ -2,3 +2,7 @@ body {
   padding: 10px;
   font-family: sans-serif;
 }
+
+td {
+  padding-right: 150px;
+}
