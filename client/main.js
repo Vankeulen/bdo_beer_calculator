@@ -25,57 +25,69 @@ Template.beerIngredients.events({
   'click #submit': function (event, instance) {
     
 
-    var grainAmount = +$("#grainamount").val();
-    var mineralWaterAmount = +$("#mineralwateramount").val();
-    var sugarAmount = +$("#sugaramount").val();
-    var leaveningAgentAmount = +$("#leaveningagentamount").val();
+    var grain = +$("#grain").val();
+    var water = +$("#water").val();
+    var sugar = +$("#sugar").val();
+    var yeast = +$("#yeast").val();
 
-    console.log("Adding data: " + grainAmount + ", " + mineralWaterAmount + ", " + sugarAmount + ", " + leaveningAgentAmount);
+    console.log("Adding data: " + grain + ", " + water + ", " + sugar + ", " + yeast);
 
-    var baseAmount = 0;
-    var sugurNeeded = 0;
-    var leaveningAgentNeeded = 0;
-    var mineralWaterNeeded = 0;
-    var grainNeeded = 0;
+    var reps = 0;
+    if (grain > 0) { reps = grain / 5.0 }
+    else if (water > 0) { reps = water / 6.0 }
+    else if (yeast > 0) { reps = yeast / 2.0 }
+    else if (sugar > 0) { reps = sugar / 2.0 }
 
-    if (grainAmount != 0) {
-      grainNeeded = grainAmount;
-      baseAmount = grainAmount / 5;
+    reps = Math.floor(reps)
+
+    //var baseAmount = 0;
+    var grainNeeded = reps * 5;
+    var waterNeeded = reps * 6;
+    var yeastNeeded = reps * 2;
+    var sugurNeeded = reps;
+
+    /* if (grain > 0) {
+      grainNeeded = grain;
+      baseAmount = grain / 5;
       sugurNeeded = baseAmount;
-      leaveningAgentNeeded = baseAmount * 2;
-      mineralWaterNeeded = baseAmount * 6;
+      yeastNeeded = baseAmount * 2;
+      waterNeeded = baseAmount * 6;
       
-    } else if (mineralWaterAmount != 0) {
-      mineralWaterNeeded = mineralWaterAmount;
-      baseAmount = mineralWaterAmount / 6;
+    } else if (water > 0) {
+      waterNeeded = water;
+      baseAmount = water / 6;
       sugurNeeded = baseAmount;
-      leaveningAgentNeeded = baseAmount * 2;
+      yeastNeeded = baseAmount * 2;
       grainNeeded = baseAmount * 5;
       
-    } else if (sugarAmount != 0) {
-      sugurNeeded = sugarAmount;
-      baseAmount = sugarAmount;
-      mineralWaterNeeded = baseAmount * 6;
-      leaveningAgentNeeded = baseAmount * 2;
+    } else if (sugar > 0) {
+      sugurNeeded = sugar;
+      baseAmount = sugar;
+      waterNeeded = baseAmount * 6;
+      yeastNeeded = baseAmount * 2;
       grainNeeded = baseAmount * 5;
       
-    } else if (leaveningAgentAmount != 0) {
-      leaveningAgentNeeded = leaveningAgentAmount;
-      baseAmount = leaveningAgentAmount / 2;
+    } else if (yeast > 0) {
+      yeastNeeded = yeast;
+      baseAmount = yeast / 2;
       sugurNeeded = baseAmount;
-      mineralWaterNeeded = baseAmount * 6;
+      waterNeeded = baseAmount * 6;
       grainNeeded = baseAmount * 5;
 
     } else {
       console.log("Please provide input > 0")
     }
+ */
 
+    /* Causes ReferenceError: Console is not defined;
+    Console.log("Can make ${reps} batches of beer.") */
+    
+    console.log("This make a minumum beer amout of: " + reps)
     console.log("Grain needed: " + grainNeeded)
-    console.log("Mineral Water needed: " + mineralWaterNeeded)
+    console.log("Mineral Water needed: " + waterNeeded)
     console.log("Sugar needed: " + sugurNeeded)
-    console.log("Leavening Agent needed: " + leaveningAgentNeeded)
+    console.log("Leavening Agent needed: " + yeastNeeded)
 
-    console.log("Base Amount: " + baseAmount)
 
 
 
