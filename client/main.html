@@ -7,7 +7,6 @@
 
   {{> hello}}
   {{> beerIngredients}}
-  {{> ingredientsNeeded}}
 </body>
 
 <template name = "beerIngredients">
@@ -29,6 +28,11 @@
     <br>
     <br>
     <button id = "submit">Submit</button>
+    <h2>Needed Ingredients:</h2>
+    <h3>Grain: {{grain}} </h3>
+    <h3>Water: {{water}} </h3>
+    <h3>Yeast: {{yeast}} </h3>
+    <h3>Sugar: {{sugar}} </h3>
     
   </form>
 </template>
@@ -36,7 +40,7 @@
 <template name = "ingredientsNeeded">
   <table>
     <p>
-      <h2>Total beer: {{baseAmount}}</h2>
+      <h2>Total beer: {{ingredientsNeeded}} </h2>
     </p>
   </table>
 </template>
