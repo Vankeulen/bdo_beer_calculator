@@ -18,66 +18,103 @@ Template.hello.events({
   'click button'(event, instance) {
     // increment the counter wwaterhen button is clicked
     instance.counter.set(instance.counter.get() + 1);
-  },  
-});  
+  },
+});
 
-Template.beerIngredients.onCreated(function() {
+Template.beerIngredients.onCreated(function () {
 
   this.ingredientsNeeded = new ReactiveVar();
   this.water = new ReactiveVar();
   this.sugar = new ReactiveVar();
   this.yeast = new ReactiveVar();
   this.grain = new ReactiveVar();
-
+  this.totalCookingTimeSec = new ReactiveVar();
+  this.rminutes = new ReactiveVar();
+  this.rhours = new ReactiveVar();
 });
 
-Template.beerIngredients.helpers({ 
-  ingredientsNeeded(){
-    var needed =Template.instance().ingredientsNeeded.get();
+Template.beerIngredients.helpers({
+  ingredientsNeeded() {
+    var needed = Template.instance().ingredientsNeeded.get();
     console.log(`rendering ingredients needed: ${needed}`)
     return needed;
-},
+  },
   water() { return Template.instance().water.get(); },
   yeast() { return Template.instance().yeast.get(); },
   grain() { return Template.instance().grain.get(); },
   sugar() { return Template.instance().sugar.get(); },
+  totalCookingTimeSec() { return Template.instance().totalCookingTimeSec.get(); },
+  rminutes() { return Template.instance().rminutes.get(); },
+  rhours() { return Template.instance().rhours.get(); },
 });
 
 Template.beerIngredients.events({
   'click #submit': function (event, instance) {
     event.preventDefault();
-    
+
     var grain = +$("#grain").val();
     var water = +$("#water").val();
     var sugar = +$("#sugar").val();
     var yeast = +$("#yeast").val();
-    
-    console.log("Adding data: " + grain + ", " + water + ", " + sugar + ", " + yeast);
-    
+    var cookingTime = +$("#cookingTime").val();
+
+    console.log("Adding data: " + grain + ", " + water + ", " + sugar + ", " + yeast + ", " + cookingTime);
+
     var reps = 0;
     if (grain > 0) { reps = grain / 5.0 }
     else if (water > 0) { reps = water / 6.0 }
     else if (yeast > 0) { reps = yeast / 2.0 }
-    else if (sugar > 0) { reps = sugar / 2.0 }
-    
-    //What does this do?
+    else if (sugar > 0) { reps = sugar }
+
+
     reps = Math.floor(reps)
-    
+
     //var baseAmount = 0;
     var grainNeeded = reps * 5;
     var waterNeeded = reps * 6;
     var yeastNeeded = reps * 2;
     var sugurNeeded = reps;
 
-    var ingredientsNeeded = `Grain: ${grainNeeded}, Water: ${waterNeeded}, Sugar: ${sugurNeeded}, Yeast: ${yeastNeeded}`
+    // Cooking time calculator 
+    var totalCookingTimeSec;
+    var totalCookingTimeMin;
+    var rminutes;
+    var rhours;
+
+    if (cookingTime > 0) {
+      totalCookingTimeSec = cookingTime * reps;
+
+      totalCookingTimeMin = totalCookingTimeSec / 60;
+
+        var num = (totalCookingTimeMin);
+        var hours = (num / 60);
+        rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        rminutes = Math.round(minutes);
+      
+    }
+
+
+
+    console.log("Cooking time seconds: " + totalCookingTimeSec + ", Minutes: " + rminutes + ", Hours: " + rhours);
+
+
+    var ingredientsNeeded = `Grain: ${grainNeeded}, Water: ${waterNeeded}, Sugar: ${sugurNeeded}, Yeast: ${yeastNeeded}, cookingTimeSec: ${totalCookingTimeSec}, cookingTimeMin ${rminutes}, cookingTimeHours: ${rhours}`
+
 
     Template.instance().ingredientsNeeded.set(ingredientsNeeded);
     Template.instance().grain.set(grainNeeded)
     Template.instance().yeast.set(yeastNeeded)
     Template.instance().water.set(waterNeeded)
     Template.instance().sugar.set(sugurNeeded)
-    
-    /* if (grain > 0) {
+    Template.instance().totalCookingTimeSec.set(totalCookingTimeSec)
+    Template.instance().rminutes.set(rminutes)
+    Template.instance().rhours.set(rhours)
+
+
+
+    /*Old shit code that works but sucks
+    if (grain > 0) {
       grainNeeded = grain;
       baseAmount = grain / 5;
       sugurNeeded = baseAmount;
@@ -108,22 +145,20 @@ Template.beerIngredients.events({
     } else {
       console.log("Please provide input > 0")
     }  
-    */ 
-   
-   /* Causes ReferenceError: Console is not defined;
-   Console.log("Can make ${reps} batches of beer.") */
-   /**
-    * 
-    console.log("This make a minumum beer amout of: " + reps)
-    console.log("Grain needed: " + grainNeeded)
-    console.log("Mineral Water needed: " + waterNeeded)
-    console.log("Sugar needed: " + sugurNeeded)
-    console.log("Leavening Agent needed: " + yeastNeeded)
     */
-   
-   
-   
-   
-  } 
-});  
+
+    /* Causes ReferenceError: Console is not defined;
+    Console.log("Can make ${reps} batches of beer.") */
+    /**
+     * 
+     console.log("This make a minumum beer amout of: " + reps)
+     console.log("Grain needed: " + grainNeeded)
+     console.log("Mineral Water needed: " + waterNeeded)
+     console.log("Sugar needed: " + sugurNeeded)
+     console.log("Leavening Agent needed: " + yeastNeeded)
+     */
+
+
+  }
+});
 
