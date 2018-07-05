@@ -31,6 +31,7 @@ Template.beerIngredients.onCreated(function () {
   this.totalCookingTimeSec = new ReactiveVar();
   this.rminutes = new ReactiveVar();
   this.rhours = new ReactiveVar();
+  this.utensils = new ReactiveVar();
 });
 
 Template.beerIngredients.helpers({
@@ -46,6 +47,7 @@ Template.beerIngredients.helpers({
   totalCookingTimeSec() { return Template.instance().totalCookingTimeSec.get(); },
   rminutes() { return Template.instance().rminutes.get(); },
   rhours() { return Template.instance().rhours.get(); },
+  utensils() { return Template.instance().utensils.get(); },
 });
 
 Template.beerIngredients.events({
@@ -57,6 +59,7 @@ Template.beerIngredients.events({
     var sugar = +$("#sugar").val();
     var yeast = +$("#yeast").val();
     var cookingTime = +$("#cookingTime").val();
+    var durability = +$("#durability").val();
 
     console.log("Adding data: " + grain + ", " + water + ", " + sugar + ", " + yeast + ", " + cookingTime);
 
@@ -86,20 +89,24 @@ Template.beerIngredients.events({
 
       totalCookingTimeMin = totalCookingTimeSec / 60;
 
-        var num = (totalCookingTimeMin);
-        var hours = (num / 60);
+        var hours = (totalCookingTimeMin / 60);
         rhours = Math.floor(hours);
         var minutes = (hours - rhours) * 60;
         rminutes = Math.round(minutes);
       
     }
 
+    if (durability > 0) { 
+      var utensils = sugurNeeded / durability 
+      utensils = Math.ceil(utensils)
+    }
+
 
 
     console.log("Cooking time seconds: " + totalCookingTimeSec + ", Minutes: " + rminutes + ", Hours: " + rhours);
+    console.log("Number of utensils needed: " + utensils)
 
-
-    var ingredientsNeeded = `Grain: ${grainNeeded}, Water: ${waterNeeded}, Sugar: ${sugurNeeded}, Yeast: ${yeastNeeded}, cookingTimeSec: ${totalCookingTimeSec}, cookingTimeMin ${rminutes}, cookingTimeHours: ${rhours}`
+    var ingredientsNeeded = `Grain: ${grainNeeded}, Water: ${waterNeeded}, Sugar: ${sugurNeeded}, Yeast: ${yeastNeeded}, cookingTimeSec: ${totalCookingTimeSec}, cookingTimeMin: ${rminutes}, cookingTimeHours: ${rhours}, Utensils: ${utensils}`
 
 
     Template.instance().ingredientsNeeded.set(ingredientsNeeded);
@@ -110,6 +117,7 @@ Template.beerIngredients.events({
     Template.instance().totalCookingTimeSec.set(totalCookingTimeSec)
     Template.instance().rminutes.set(rminutes)
     Template.instance().rhours.set(rhours)
+    Template.instance().utensils.set(utensils)
 
 
 
