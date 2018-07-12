@@ -22,32 +22,61 @@ Template.hello.events({
 });
 
 Template.beerIngredients.onCreated(function () {
-
+  this.results = new ReactiveVar();
+  this.results.set({
+    ingredientsNeeded: "",
+    water: 0,
+    sugar: 0,
+    yeast: 0,
+    grain: 0,
+    cookTime: "",
+    utensils: 0,
+  });
+  /*
   this.ingredientsNeeded = new ReactiveVar();
   this.water = new ReactiveVar();
   this.sugar = new ReactiveVar();
   this.yeast = new ReactiveVar();
   this.grain = new ReactiveVar();
+  this.cookTime = new ReactiveVar();
+
   this.totalCookingTimeSec = new ReactiveVar();
   this.rminutes = new ReactiveVar();
   this.rhours = new ReactiveVar();
   this.utensils = new ReactiveVar();
+  //*/
 });
 
+function GetResults() { return Template.instance().results.get(); }
 Template.beerIngredients.helpers({
+  
+  ingredientsNeeded() { return GetResults().ingredientsNeeded ; },
+  water() { return GetResults().water; },
+  yeast() { return GetResults().yeast; },
+  grain() { return GetResults().grain; },
+  sugar() { return GetResults().sugar; },
+  cookTime() { return GetResults().cookTime; },
+  utensils() { return GetResults().utensils; },
+  results(key) { 
+    console.log(`Results called with key ${key}`)
+    return GetResults()[key]; 
+  },
+  /*
   ingredientsNeeded() {
     var needed = Template.instance().ingredientsNeeded.get();
     console.log(`rendering ingredients needed: ${needed}`)
     return needed;
   },
-  water() { return Template.instance().water.get(); },
-  yeast() { return Template.instance().yeast.get(); },
   grain() { return Template.instance().grain.get(); },
+  
   sugar() { return Template.instance().sugar.get(); },
+  cookTime() { return Template.instance().cookTime.get(); },
+
   totalCookingTimeSec() { return Template.instance().totalCookingTimeSec.get(); },
   rminutes() { return Template.instance().rminutes.get(); },
   rhours() { return Template.instance().rhours.get(); },
   utensils() { return Template.instance().utensils.get(); },
+  */
 });
 
 Template.beerIngredients.events({
@@ -107,19 +136,33 @@ Template.beerIngredients.events({
     console.log("Number of utensils needed: " + utensils)
 
     var ingredientsNeeded = `Grain: ${grainNeeded}, Water: ${waterNeeded}, Sugar: ${sugurNeeded}, Yeast: ${yeastNeeded}, cookingTimeSec: ${totalCookingTimeSec}, cookingTimeMin: ${rminutes}, cookingTimeHours: ${rhours}, Utensils: ${utensils}`
+    var results = {
+      ingredientsNeeded,
+      sugar: sugurNeeded,
+      yeast: yeastNeeded,
+      water: waterNeeded,
+      grain: grainNeeded,
 
-
+      cookTime: `Total cooking Time: ${totalCookingTimeSec} Seconds, or ${rhours}:${rminutes} hours`,
+      utensils,
+    }
+    Template.instance().results.set(results);
+    /*
     Template.instance().ingredientsNeeded.set(ingredientsNeeded);
     Template.instance().grain.set(grainNeeded)
     Template.instance().yeast.set(yeastNeeded)
     Template.instance().water.set(waterNeeded)
-    Template.instance().sugar.set(sugurNeeded)
+    Template.instance().sugar.set(sugurNeeded)  
+    Template.instance().cookTime.set(
+      `Total cooking Time: ${totalCookingTimeSec} Seconds, or ${rhours}:${rminutes} hours`
+    );
+
     Template.instance().totalCookingTimeSec.set(totalCookingTimeSec)
     Template.instance().rminutes.set(rminutes)
     Template.instance().rhours.set(rhours)
     Template.instance().utensils.set(utensils)
 
-
+//*/
 
     /*Old shit code that works but sucks
     if (grain > 0) {
